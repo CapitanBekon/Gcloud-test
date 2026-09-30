@@ -14,7 +14,7 @@ jobs:
       - uses: google-github-actions/auth@v2
         with:
           project_id: juice-shop-510210
-          workload_identity_provider: projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          workload_identity_provider: projects/600600502136/locations/global/workloadIdentityPools/github-pool/providers/github-provider
       - uses: google-github-actions/setup-gcloud@v2
       - run: gcloud auth configure-docker europe-central2-docker.pkg.dev --quiet
       - run: |
