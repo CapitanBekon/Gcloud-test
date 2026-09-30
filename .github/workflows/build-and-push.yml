@@ -1,0 +1,24 @@
+name: build-and-push
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: google-github-actions/auth@v2
+        with:
+          project_id: juice-shop
+          workload_identity_provider: projects/YOUR_PROJECT_NUMBER/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+      - uses: google-github-actions/setup-gcloud@v2
+      - run: gcloud auth configure-docker europe-central2-docker.pkg.dev --quiet
+      - run: |
+          IMG=europe-central2-docker.pkg.dev/juice-shop/juice/juice-shop
+          docker build -t $IMG:${{ github.sha }} -t $IMG:latest .
+          docker push $IMG:${{ github.sha }}
+          docker push $IMG:latest
